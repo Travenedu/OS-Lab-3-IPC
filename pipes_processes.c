@@ -46,19 +46,24 @@ int main(int argc, char **argv){
 
   } else{
     
-    dup2(pipefd2[1], 1);
+      dup2(pipefd2[1], 1);
+
+        close(pipefd[1]);
+        close(pipefd[0]);
+        close(pipefd2[1]);
+        close(pipefd2[0]);
+
+    //cat
+      execvp(*cat_args, cat_args);
+    }
 
     close(pipefd[1]);
     close(pipefd[0]);
     close(pipefd2[1]);
     close(pipefd2[0]);
 
-    //cat
-    execvp(*cat_args, cat_args);
-
-    for (int i = 0; i < 3; i++){
+    int i;
+    for (i = 0; i < 3; i++){
       wait(&status);
     }
-  }
-
 }
